@@ -36,7 +36,7 @@ public class LoginServerlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("customer", customer);
 
-            response.sendRedirect("CustomerView.jsp");
+            response.sendRedirect("CustomerView/CustomerView.jsp");
         } else {
             request.setAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
             RequestDispatcher dispatcher = request.getRequestDispatcher("CustomerView/Login.jsp");

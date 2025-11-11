@@ -68,7 +68,7 @@
 <body>
 <div class="login-container">
     <div class="login-header">
-        <h2>Đăng nhập hệ thống nhân viên</h2>
+        <h2>Đăng nhập khách hàng</h2>
     </div>
 
     <% if (request.getAttribute("error") != null) { %>
