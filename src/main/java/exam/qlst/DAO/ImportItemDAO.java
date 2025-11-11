@@ -12,7 +12,7 @@ public class ImportItemDAO extends DAO {
     }
 
     public boolean saveImportItem(ImportItem importItem, int invoiceId) {
-        String sql = "INSERT INTO import_item (quantity, price, note, itemId, invoiceId) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tblImportItem (quantity, price, note, itemId, ImportInvoiceId) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, importItem.getQuantity());

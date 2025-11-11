@@ -32,7 +32,7 @@ public class SearchItemsServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("itemList", items);
 
-        request.getRequestDispatcher("SearchItemsView.jsp").forward(request, response);
+        request.getRequestDispatcher("WarehouseStaffView/SearchItemsView.jsp").forward(request, response);
     }
 
     @Override

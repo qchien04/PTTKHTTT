@@ -12,9 +12,9 @@ public class ImportInvoiceDAO extends DAO {
         super(con);
     }
 
-    public boolean saveImportInvoice(ImportInvoice invoice) {
+    public ImportInvoice saveImportInvoice(ImportInvoice invoice) {
         System.out.println(invoice);
-        String sql = "INSERT INTO import_invoice (importDate, supplierId, staffId) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO tblImportInvoice (importDate, supplierId, WareHouseStaffid) VALUES (?, ?, ?)";
         try {
             con.setAutoCommit(false);
 
@@ -34,12 +34,12 @@ public class ImportInvoiceDAO extends DAO {
                     for (ImportItem item : invoice.getImportItems()) {
                         if (!importItemDAO.saveImportItem(item, invoiceId)) {
                             con.rollback();
-                            return false;
+                            return null;
                         }
                     }
 
                     con.commit();
-                    return true;
+                    return invoice;
                 }
             }
             con.rollback();
@@ -57,7 +57,7 @@ public class ImportInvoiceDAO extends DAO {
                 e.printStackTrace();
             }
         }
-        return false;
+        return null;
     }
 }
 

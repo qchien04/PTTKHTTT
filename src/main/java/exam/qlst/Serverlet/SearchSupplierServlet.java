@@ -31,7 +31,7 @@ public class SearchSupplierServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("supplierList", suppliers);
 
-        request.getRequestDispatcher("SearchSupplierView.jsp").forward(request, response);
+        request.getRequestDispatcher("WarehouseStaffView/SearchSupplierView.jsp").forward(request, response);
     }
 
     @Override

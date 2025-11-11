@@ -11,7 +11,7 @@ public class SupplierDAO extends DAO {
 
     public List<Supplier> searchSuppliers(String key) {
         List<Supplier> list = new ArrayList<>();
-        String sql = "SELECT * FROM supplier WHERE name LIKE ? OR email LIKE ? OR phoneNumber LIKE ?";
+        String sql = "SELECT * FROM tblSupplier WHERE name LIKE ? OR email LIKE ? OR phoneNumber LIKE ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             String searchKey = "%" + key + "%";

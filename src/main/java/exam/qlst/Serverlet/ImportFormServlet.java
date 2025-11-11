@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 @WebServlet("/importForm")
 public class ImportFormServlet extends HttpServlet {
 
@@ -25,10 +26,23 @@ public class ImportFormServlet extends HttpServlet {
         String supplierIdParam = request.getParameter("supplierId");
         String selectedItemId = request.getParameter("selectedItem");
 
+
         HttpSession session = request.getSession();
 
         ImportInvoice importInvoice = null;
         ArrayList<Item> selectedItems = null;
+
+        String delItem = request.getParameter("del");
+        if(session.getAttribute("selectedItems") != null && delItem != null) {
+            int delItemId=Integer.parseInt(delItem);
+            ArrayList<Item> items = (ArrayList<Item>) session.getAttribute("selectedItems");
+            List<Item> updatedItems = items.stream()
+                    .filter(item -> item.getId() != delItemId)
+                    .toList();
+
+            session.setAttribute("selectedItems", new ArrayList<>(updatedItems));
+        }
+
 
         if(session.getAttribute("selectedItems") != null){
             selectedItems = (ArrayList<Item>) session.getAttribute("selectedItems");
@@ -43,12 +57,10 @@ public class ImportFormServlet extends HttpServlet {
                     }
                 }
             }else{
-                request.getRequestDispatcher("SearchSupplierView.jsp").forward(request, response);
+                request.getRequestDispatcher("WarehouseStaffView/SearchSupplierView.jsp").forward(request, response);
             }
 
-            Staff staff = new WareHouseStaff();
-            staff.setId(1);
-            staff.setFullName("Nhan vien");
+            Staff staff = (Staff)  session.getAttribute("staff");
 
             importInvoice = new ImportInvoice(new Date(), supplier, staff);
 
@@ -79,8 +91,9 @@ public class ImportFormServlet extends HttpServlet {
         Supplier selectedSupplier = ((ImportInvoice) session.getAttribute("importInvoice")).getSupplier();
         request.setAttribute("selectedSupplier", selectedSupplier);
         request.setAttribute("selectedItems", selectedItems);
+        request.setAttribute("staff", (Staff) session.getAttribute("staff"));
 
-        request.getRequestDispatcher("ImportFormView.jsp").forward(request, response);
+        request.getRequestDispatcher("WarehouseStaffView/ImportFormView.jsp").forward(request, response);
     }
 
     @Override
@@ -93,7 +106,7 @@ public class ImportFormServlet extends HttpServlet {
         if(session.getAttribute("importInvoice") != null){
             invoice = (ImportInvoice) session.getAttribute("importInvoice");
         }else{
-            request.getRequestDispatcher("SearchSupplierView.jsp").forward(request, response);
+            request.getRequestDispatcher("WarehouseStaffView/SearchSupplierView.jsp").forward(request, response);
         }
 
         String[] quantities = request.getParameterValues("quantity[]");
@@ -103,8 +116,6 @@ public class ImportFormServlet extends HttpServlet {
         ArrayList<Item> selectedItems = (ArrayList<Item>)session.getAttribute("selectedItems");
 
         for (int i=0;i<selectedItems.size();i++) {
-
-
             int quantity = Integer.parseInt(quantities[i]);
             double price = Double.parseDouble(prices[i]);
             String note = (notes != null && i < notes.length) ? notes[i] : "";
@@ -114,16 +125,15 @@ public class ImportFormServlet extends HttpServlet {
         }
 
         ImportInvoiceDAO invoiceDAO = new ImportInvoiceDAO();
-        if (invoiceDAO.saveImportInvoice(invoice)) {
+        if (invoiceDAO.saveImportInvoice(invoice)!=null) {
             session.removeAttribute("supplierList");
             session.removeAttribute("itemList");
             session.removeAttribute("importInvoice");
             session.removeAttribute("selectedItems");
 
-            request.setAttribute("message", "Import successful!");
             invoice.calTotal();
             request.setAttribute("invoice", invoice);
-            request.getRequestDispatcher("statusInvoice.jsp").forward(request, response);
+            request.getRequestDispatcher("WarehouseStaffView/StatusInvoice.jsp").forward(request, response);
         }
 
     }

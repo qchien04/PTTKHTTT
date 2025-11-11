@@ -12,7 +12,7 @@ public class ItemDAO extends DAO {
         super(con);
     }
     public boolean increaseStockQuantity(Item item, int quantity) {
-        String sql = "UPDATE item SET stockQuantity = stockQuantity + ? WHERE id = ?";
+        String sql = "UPDATE tblItem SET stockQuantity = stockQuantity + ? WHERE id = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, quantity);
@@ -26,7 +26,7 @@ public class ItemDAO extends DAO {
 
     public List<Item> searchItems(String key) {
         List<Item> list = new ArrayList<>();
-        String sql = "SELECT * FROM item WHERE name LIKE ? OR type LIKE ?";
+        String sql = "SELECT * FROM tblItem WHERE name LIKE ? OR type LIKE ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             String searchKey = "%" + key + "%";

@@ -11,15 +11,11 @@ public class DAO {
 
     protected Connection con;
 
-    // Lấy connection tĩnh
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        // Nạp driver MySQL
         Class.forName("com.mysql.cj.jdbc.Driver");
-        // Trả connection
         return DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASS);
     }
 
-    // Constructor mở connection
     public DAO() {
         try {
             con = DAO.getConnection();
@@ -33,7 +29,6 @@ public class DAO {
         this.con = con;
     }
 
-    // Test
     public static void main(String[] args) {
         DAO a = new DAO();
     }

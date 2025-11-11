@@ -66,22 +66,12 @@
             border-bottom: 1px solid #ddd;
         }
 
-        table tbody tr:hover {
-            background-color: #f1f1f1;
-        }
 
         .total {
             text-align: right;
             font-size: 18px;
             font-weight: bold;
             color: #2e7d32;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
         }
 
         .btn {
@@ -92,50 +82,37 @@
             transition: background-color 0.3s ease;
         }
 
-        .btn-primary {
-            background-color: #2196F3;
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0b7dda;
-        }
-
         .btn-secondary {
             background-color: #757575;
             color: #fff;
         }
 
-        .btn-secondary:hover {
-            background-color: #616161;
-        }
     </style>
 </head>
 <body>
 <div class="invoice-container">
-    <h2>Import Invoice Created Successfully!</h2>
-    <p class="message">${message}</p>
+    <h2>Nhập hàng thành công!</h2>
 
     <c:if test="${not empty invoice}">
         <div class="invoice-info">
-            <p><strong>Invoice ID:</strong> #1</p>
-            <p><strong>Supplier:</strong> ${invoice.supplier.name}</p>
-            <p><strong>Import Date:</strong>
+            <p><strong>Mã đơn nhập:</strong>${invoice.id}</p>
+            <p><strong>Nhà cung cấp:</strong> ${invoice.supplier.name}</p>
+            <p><strong>Ngày nhập:</strong>
                 <fmt:formatDate value="${invoice.importDate}" pattern="dd/MM/yyyy HH:mm"/>
             </p>
-            <p><strong>Warehouse Staff:</strong> ${invoice.warehouseStaff.fullName}</p>
+            <p><strong>Nhân viên kho:</strong> ${invoice.warehouseStaff.fullName}</p>
         </div>
 
-        <h3>Imported Items</h3>
+        <h3>Hàng nhập</h3>
         <table>
             <thead>
             <tr>
-                <th>No.</th>
-                <th>Item Name</th>
-                <th>Quantity</th>
-                <th>Price (₫)</th>
-                <th>Note</th>
-                <th>Subtotal (₫)</th>
+                <th>STT</th>
+                <th>Hàng</th>
+                <th>Số lượng nhập</th>
+                <th>Giá (₫)</th>
+                <th>Ghi chú</th>
+                <th>Tổng con(₫)</th>
             </tr>
             </thead>
             <tbody>
@@ -158,16 +135,12 @@
         </c:forEach>
 
         <p class="total">
-            Total:
+            Tổng đơn nhập:
             <fmt:formatNumber value="${total}" type="number" groupingUsed="true"/> ₫
         </p>
     </c:if>
 
-    <div class="btn-group">
-        <a href="importForm" class="btn btn-primary">Create Another Import</a>
-        <a href="searchItems" class="btn btn-secondary">View Items</a>
-        <a href="index.jsp" class="btn btn-secondary">Back to Home</a>
-    </div>
+        <a href="${pageContext.request.contextPath}/WarehouseStaffView/WareHouseStaffView.jsp" class="btn btn-secondary">Về trang chủ</a>
 </div>
 </body>
 </html>

@@ -21,11 +21,15 @@
         }
         h2 {
             color: #333;
-            border-bottom: 2px solid #2196F3;
+            border-bottom: 2px solid #4CAF50;
             padding-bottom: 10px;
         }
         .search-form {
             margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         .search-form input[type="text"] {
             padding: 10px;
@@ -35,14 +39,11 @@
         }
         .search-form button {
             padding: 10px 20px;
-            background-color: #2196F3;
+            background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-        }
-        .search-form button:hover {
-            background-color: #0b7dda;
         }
         table {
             width: 100%;
@@ -50,7 +51,7 @@
             margin-top: 20px;
         }
         table th {
-            background-color: #2196F3;
+            background-color: #4CAF50;
             color: white;
             padding: 12px;
             text-align: left;
@@ -62,31 +63,15 @@
         table tr:hover {
             background-color: #f5f5f5;
         }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #2196F3;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-        .stock-low {
-            color: #f44336;
-            font-weight: bold;
-        }
-        .stock-ok {
-            color: #4CAF50;
-        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h2>Search Items</h2>
-    <form action="searchItems" method="get" class="search-form">
-        <input type="text" name="keyword" placeholder="Enter item name or type"
+    <h2>Tìm hàng</h2>
+    <form action="${pageContext.request.contextPath}/searchItems" method="get" class="search-form">
+        <input type="text" name="keyword" placeholder="Nhập tên hàng hóa"
                value="${param.keyword}">
-        <button type="submit">Search</button>
+        <button type="submit">Tìm</button>
     </form>
 
     <c:if test="${not empty itemList}">
@@ -94,16 +79,16 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Unit</th>
-                <th>Stock Quantity</th>
-                <th>Unit Price</th>
+                <th>Tên</th>
+                <th>Loại</th>
+                <th>Đơn vị</th>
+                <th>Tồn kho</th>
+                <th>Giá</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${itemList}" var="item">
-                <tr onclick="window.location.href='importForm?selectedItem=${item.id}';" style="cursor:pointer;">
+                <tr onclick="window.location.href='${pageContext.request.contextPath}/importForm?selectedItem=${item.id}';" style="cursor:pointer;">
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>${item.type}</td>
@@ -119,10 +104,9 @@
     </c:if>
 
     <c:if test="${empty itemList && not empty param.keyword}">
-        <p style="color: #666; margin-top: 20px;">No items found matching "${param.keyword}"</p>
+        <p>Không tìm thấy "${param.keyword}"</p>
     </c:if>
 
-    <a href="index.jsp" class="back-link">← Back to Home</a>
 </div>
 </body>
 </html>
